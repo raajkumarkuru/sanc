@@ -1,0 +1,69 @@
+{%
+  set classes = [
+    'node',
+    'node--type-' ~ node.bundle|clean_class,
+    node.isPromoted() ? 'node--promoted',
+    node.isSticky() ? 'node--sticky',
+    not node.isPublished() ? 'node--unpublished',
+    view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
+    'clearfix post-block',
+    'index-' ~ gva_node_index
+  ]
+%}
+
+{% set average =  0 %}
+{% if node.field_post_review|length > 0 %}
+    {% set total = 0 %}
+    {% set k = 0 %}
+    {% for review in node.field_post_review %}
+      {% if review.value|split('--')[0] and review.value|split('--')[1] %}
+        {% set value = review.value|split('--')[1]|trim %}
+        {% set total = total + value %}
+        {% set k = k + 1 %}
+      {% endif %}    
+    {% endfor %}
+    {% set average =  total/k %}
+{% endif %}
+
+{% set body %}{{content.body}}{% endset %}
+{% if gva_node_index == 1 %}
+  <div{{ attributes.addClass(classes).addClass('node-index-1') }}>
+    <div class="post-thumbnail">
+      {{ content.field_image }}
+      <div class="icons-format">
+        {% if 'video' in node.field_post_format.value %}<span class="icon-video fa fa-video-camera"></span>{% endif %}
+        {% if 'gallery' in node.field_post_format.value %}<span class="icon-gallery fa fa-camera"></span>{% endif %}
+      </div>
+      {% if average %}
+        <div class="review-average">{{ average|round(1, 'floor') }}</div>
+      {% endif %}
+     <div class="post-meta top category-background">{{ content.field_post_category }}</div>
+    </div>
+    <div class="post-content">
+      <div class="content-inner">
+        <div class="post-meta"><span class="post-created"> {{ date|raw }}</span></div>
+        <h3{{ title_attributes.addClass('post-title') }}><a href="{{ url }}" rel="bookmark">{{ label }}</a></h3>
+        <div class="post-body">{{body|striptags}}</div>
+      </div>  
+    </div>
+  </div>  
+{% else %}
+  <div{{ attributes.addClass(classes).addClass('small-post') }}>
+    <div class="content-inner">
+      <div class="post-image">
+        <a href="{{url}}"><img src="{{ node.field_image.entity.uri.value | image_style('thumbnail') }}" alt="" /></a>
+        <div class="icons-format">
+          {% if 'video' in node.field_post_format.value %}<span class="icon-video fa fa-video-camera"></span>{% endif %}
+          {% if 'gallery' in node.field_post_format.value %}<span class="icon-gallery fa fa-camera"></span>{% endif %}
+        </div>
+        {% if average %}
+          <div class="review-average">{{ average|round(1, 'floor') }}</div>
+        {% endif %}
+      </div> 
+      <div class="post-content">
+        <div class="post-meta">{{ content.field_post_category }}<span class="post-created"> {{ date|raw }}</span></div>
+        <div class="post-title"><a href="{{url}}">{{ label }}</a></div>
+      </div>  
+    </div>
+  </div> 
+{% endif %}

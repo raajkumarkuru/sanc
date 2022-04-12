@@ -1,0 +1,234 @@
+body{
+  overflow-x: hidden;
+  &.boxed{  
+    max-width: 1230px;
+    margin: 0 auto;
+    background-color: #F5F5F5;
+    .body-page{
+      background: $white;
+      @include box-shadow(0px 6px 12px rgba(0, 0, 0, 0.1));
+    }
+  }
+  &.loading-pjax{
+    overflow: hidden;
+    &:after{
+      content: '';
+      @include size(100%, 100%);
+      background: rgba(0, 0, 0, 0.2);
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 9;
+    }
+  }
+  &.path-user{
+    .gva-block-breadcrumb{
+      margin-bottom: 18px!important;
+    }
+  }
+  &.layout-page-fw{
+    .node--view-mode-full{
+      margin-bottom: 0;
+    }
+  } 
+  &.body-background-white{
+    background: $white;
+  }
+}
+.container{
+  @media(max-width: $screen-md-max){
+    width: 100%!important;
+  }
+  .container{
+    max-width: 100%;
+  }
+}
+
+
+.main_content{
+  position: relative;
+  &.sright{
+    padding-right: 20px;
+  }
+  &.sleft{
+    padding-left: 20px;
+  }
+}
+
+.sidebar{
+  &.sidebar-right, &.sright{
+    padding-left: 20px;
+    padding-top: 30px;
+    &:before{
+      content: '';
+      border-left: 1px solid rgba(0, 0, 0, 0.06);
+      background: rgba(0, 0, 0, 0) linear-gradient(to right, rgba(240, 240, 240, 1) 0%, rgba(255, 255, 255, 1) 100%) repeat scroll 0 0;
+      position: absolute;
+      right: 100%;
+      margin-right: -10px;
+      width: 10px;
+      top: -10px;
+      bottom: -30px;
+    }
+  }
+  &.sidebar-left, &.sleft{
+    padding-right: 20px;
+    padding-top: 30px;
+    &:before{
+      content: '';
+      border-right: 1px solid rgba(0, 0, 0, 0.06);
+      background: rgba(0, 0, 0, 0) linear-gradient(to left, rgba(240, 240, 240, 1) 0%, rgba(255, 255, 255, 1) 100%) repeat scroll 0 0;
+      position: absolute;
+      left: 100%;
+      margin-left: -10px;
+      width: 10px;
+      top: -10px;
+      bottom: -30px;
+    }
+  }
+  &.gsc-column{
+    padding-top: 0!important;
+  }
+}
+
+.stuck {
+  position:fixed;
+  top: 0;
+  left: 0;
+  z-index: 99;
+  width: 100%;
+  @include box-shadow(0px 2px 5px rgba(0, 0, 0, 0.2)); 
+}
+
+.content-full{
+  overflow: hidden;
+}
+
+.area{
+  &.highlighted{
+    .content-inner{
+      background: #34495E;
+      padding: 20px 30px;
+      margin-bottom: 45px;
+      color: #f0f0f0;
+      a{
+        color: #f0f0f0;
+        &:hover{
+          color: $theme-color;
+        }
+      }
+    }
+  }
+}
+
+.area-panel{
+  .area-panel-inner{
+    padding: 60px 0;
+    border-bottom: 2px solid rgba(255, 255,255, 0.1);
+  }
+}
+
+.header-right{
+  .block{
+    margin-bottom: 0;
+  }
+}
+
+.promotion{
+  padding: 0;
+  margin-bottom: 0;
+}
+
+.main-menu{
+  .area-main-menu{
+    .area-inner{
+      min-height: 45px;
+      .block{
+        margin-bottom: 0;
+        .block-content{
+          padding: 0;
+        }
+      }
+    }  
+  }
+} 
+
+.footer-top{
+  @include clearfix();
+  .content-inner{
+    padding: 45px 0 30px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    @include clearfix();
+  }  
+}
+.after-footer{
+  .content-inner{
+    border-top: 2px solid rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 55px 0;
+  }  
+}
+
+.area-panel{
+  background: #222222; 
+  color: #bbbbbb;
+}
+
+.footer{
+  color: #bbbbbb;
+  font-size: 14px;
+  line-height: 28px;
+  background: #222222;
+  a{
+    color: #bbbbbb;
+    &:hover{
+      color: $theme-color;
+    }
+  }
+  .block{
+    padding-bottom: 0;
+    margin-bottom: 0;
+    .block-title{
+      color: $white;
+      background: none;
+      margin-bottom: 20px;
+      float: left;
+      width: 100%;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      span{
+        color: $white;
+        background: none;
+        @include box-shadow(none);
+        padding: 0 0 15px;
+        &:after{
+          background: $white;
+        }
+      }
+    }
+    .block-content{
+      background: none;
+      padding: 0;
+    }
+  }
+  .footer-center{
+    padding: 45px 0 30px;
+  }
+  .footer-bottom{
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 30px;
+  }
+}
+
+.copyright{
+  background: #1C1C1C;
+  .copyright-inner{
+    padding: 20px 0;
+    .block{
+      margin: 0;
+    }
+  }
+}
+

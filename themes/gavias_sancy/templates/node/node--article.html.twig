@@ -1,0 +1,105 @@
+{%
+  set classes = [
+    'node',
+    'node-detail',
+    'node--type-' ~ node.bundle|clean_class,
+    node.isPromoted() ? 'node--promoted',
+    node.isSticky() ? 'node--sticky',
+    not node.isPublished() ? 'node--unpublished',
+    view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
+    'clearfix',
+  ]
+%}
+
+{# View full node #}
+{% if page %}
+<article{{ attributes.addClass(classes) }}>
+  <div class="article-detail">
+    <div class="block">
+      
+      <div class="post-top">
+        <div class="post-meta category-background">{{ content.field_post_category }}<span class="post-created"> {{ date|raw }}</span> / <span class="post-comment">{{ comment_count }} {{ 'Comments'|t }}</span> </div>
+        <h1{{ title_attributes.addClass('post-title') }}>{{ label }}</h1>
+      </div>  
+
+      <div class="post-thumbnail">
+        {{ content.field_image }}
+      </div>
+
+      <div class="post-content">
+        <div{{ content_attributes.addClass('node__content', 'clearfix') }}>
+          {{ content|without('field_image', 'field_post_category', 'field_tags', 'field_post_format', 'field_post_type', 'field_post_embed', 'field_post_gallery','field_taxonomy_color', 'field_post_review', 'field_post_review_bad', 'field_post_review_good', 'field_post_review_title', 'comment', 'links') }}
+        </div>
+        
+        {% if node.field_post_review|length > 0 %}
+          <div class="article-review">
+            {% set total = 0 %}
+            {% set k = 0 %}
+            <div class="review-top">
+              <div class="review-title">{{ node.field_post_review_title.value }}</div>
+              <div class="review-process">
+                {% for review in node.field_post_review %}
+                  {% if review.value|split('--')[0] and review.value|split('--')[1] %}
+                    {% set title = review.value|split('--')[0]|trim %}
+                    {% set value = review.value|split('--')[1]|trim %}
+                    {% set total = total + value %}
+                    {% set k = k + 1 %}
+                    <div class="process-item">
+                      <div class="review-progress-item">
+                        <div class="progress-label">{{title}}</div>
+                        <span class="percentage">{{value}}</span>
+                        <div class="progress">
+                          <div class="progress-bar" data-progress-animation="{{value}}0%">
+                          </div>
+                        </div>
+                      </div>
+                    </div>  
+                  {% endif %}    
+                {% endfor %}
+                {% set average = total/k %}
+              </div>
+              </div>  
+              <div class="review-bottom">
+                <div class="row">
+                  <div class="col-lg-2 col-sm-2 col-xs-12 col-lg-push-10"><div class="review-total">{{ average|round(2, 'floor') }}</div></div>
+                  <div class="col-lg-10 col-sm-10 col-xs-12 col-lg-pull-2">
+                    <div class="col-lg-6 col-sm-6 col-xs-12 review-content the-good">
+                      <div class="title">{{'The Good'|t}}</div>
+                      {{ node.field_post_review_good.value|raw }}
+                    </div>
+                    <div class="col-lg-6 col-sm-6 col-xs-12 review-content the-bad">
+                      <div class="title">{{'The Bad'|t}}</div>
+                      {{ node.field_post_review_bad.value|raw }}
+                    </div>
+                  </div>
+                </div>  
+              </div>  
+          </div>
+        {% endif %}  
+
+        <div class="post-tags clearfix">
+          {{ content.field_tags }}
+        </div>  
+      </div>
+
+    </div>  
+
+    <div class="related-posts margin-top-30">
+      {{ related_content }}
+    </div>
+
+    {% if content.comment %}
+      <div id="node-single-comment" class="block">
+        {% if comment_count > 0 %} 
+          <div class="comment-count"><span>{{ comment_count }} {{ 'Comments'|t }} </span></div>
+        {% endif %}  
+        {{ content.comment }}
+      </div>
+    {% endif %}  
+    <div class="margin-bottom-30">{{ content.links }}</div>
+  </div>
+
+</article>
+
+<!-- End Display article for detail page -->
+{% endif %}

@@ -1,0 +1,44 @@
+{%
+  set classes = [
+    'node',
+    'node--type-' ~ node.bundle|clean_class,
+    node.isPromoted() ? 'node--promoted',
+    node.isSticky() ? 'node--sticky',
+    not node.isPublished() ? 'node--unpublished',
+    view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
+    'clearfix post-block',
+  ]
+%}
+
+{% set average =  0 %}
+{% if node.field_post_review|length > 0 %}
+    {% set total = 0 %}
+    {% set k = 0 %}
+    {% for review in node.field_post_review %}
+      {% if review.value|split('--')[0] and review.value|split('--')[1] %}
+        {% set value = review.value|split('--')[1]|trim %}
+        {% set total = total + value %}
+        {% set k = k + 1 %}
+      {% endif %}    
+    {% endfor %}
+    {% set average =  total/k %}
+{% endif %}
+
+  <div{{ attributes.addClass(classes) }}>
+    <div class="post-inner">
+      <div class="post-thumbnail">
+        {{ content.field_image }}
+        <div class="icons-format">
+          {% if 'video' in node.field_post_format.value %}<span class="icon-video fa fa-video-camera"></span>{% endif %}
+          {% if 'gallery' in node.field_post_format.value %}<span class="icon-gallery fa fa-camera"></span>{% endif %}
+        </div>
+        {% if average %}
+          <div class="review-average">{{ average|round(1, 'floor') }}</div>
+        {% endif %}
+      </div>
+      <div class="post-meta-wrap">
+        <div class="post-meta"><span class="category-background">{{ content.field_post_category }}</span><span class="post-created"> {{ date|raw }}</span> </div>
+        <h3 class="post-title"><a href="{{url}}">{{ label }}</a></h3>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,28 @@
+{% if attributes -%}
+   <div{{ attributes.addClass('slider-posts v2') }}>
+{% endif %}
+
+   {% set i = 0 %}
+   {% for row in rows %}
+      {% set i = i + 1 %}
+      {% if i % 3 == 1 %}<div class="item"><div class="clearfix">{% endif %}
+         {% if i % 3 == 1 %}
+            <div class="post-large post-item no-padding col-sm-8 col-xs-12">
+               <div class="item content">{{ row.content }}</div>
+            </div>
+         {% endif %}   
+         {% if i % 3 == 2 or i % 3 == 0 %}
+            {% if i % 3 == 2 %}
+               <div class="post-small post-item no-padding col-sm-4 col-xs-12">
+            {% endif %}
+               <div class="item content post-small-item">{{ row.content }}</div>
+            {% if i % 3 == 0 or i == rows|length %}
+               </div>
+            {% endif %}      
+         {% endif %}  
+      {% if i % 3 == 0 or i == rows|length %}</div></div>{% endif %}
+   {% endfor %}   
+
+{% if attributes -%}
+    </div>
+{% endif %}

@@ -1,0 +1,33 @@
+{%
+  set classes = [
+    'node',
+    'node--type-' ~ node.bundle|clean_class,
+    node.isPromoted() ? 'node--promoted',
+    node.isSticky() ? 'node--sticky',
+    not node.isPublished() ? 'node--unpublished',
+    view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
+    'clearfix small-post post-block',
+  ]
+%}
+
+{% set average =  0 %}
+{% if node.field_post_review|length > 0 %}
+    {% set total = 0 %}
+    {% set k = 0 %}
+    {% for review in node.field_post_review %}
+      {% if review.value|split('--')[0] and review.value|split('--')[1] %}
+        {% set value = review.value|split('--')[1]|trim %}
+        {% set total = total + value %}
+        {% set k = k + 1 %}
+      {% endif %}    
+    {% endfor %}
+    {% set average =  total/k %}
+{% endif %}
+
+<div{{ attributes.addClass(classes) }}>
+  <div class="post-image">{{ content.field_image }}</div>
+  <div class="post-content">    
+    <div class="post-meta">{{ content.field_post_category }}<span class="post-created"> {{ date|raw }}</span> </div>
+    <div class="post-title"><a href="{{url}}">{{ label }}</a></div> 
+   </div>
+</div>  

@@ -1,0 +1,12 @@
+<div class="breaking-news-inner">
+  <div class="breaking-news-title">
+    {{ 'Beaking News'|t }}
+  </div>
+  <div class="breaking-content">
+    <ul class="newsticker">
+      {% for row in rows %}
+        <li class="view-list-item" {{ row.attributes }}>{{ row.content }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>    

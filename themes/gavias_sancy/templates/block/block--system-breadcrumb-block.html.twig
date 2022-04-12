@@ -1,0 +1,36 @@
+{% set title_classes = '' %}
+{% if label == '' %}
+{% set title_classes = 'no-title' %}
+{% endif %}
+{%
+  set classes = [
+    'block gva-block-breadcrumb',
+    'block-' ~ configuration.provider|clean_class,
+    'block-' ~ plugin_id|clean_class,
+    title_classes
+  ]
+%}
+
+<div class="breadcrumb-content-inner">
+  <div{{ attributes.addClass(classes) }}>
+    <div class="breadcrumb-style" style="{{ custom_style }}">
+      <div class="clearfix">
+        <div class="content-inner">
+          <h2 class="page-title hidden">{{ breadcrumb_title }} </h2>
+          {{ title_prefix }} 
+            {% if label %}
+              <h2 class="block-title" {{ title_attributes }}><span>{{ label }}</span></h2>
+            {% endif %}
+          {{ title_suffix }}
+          {% block content %}
+            <div class="{{ custom_classes }}">
+              <div{{ content_attributes.addClass('content block-content') }}>
+                {{ content }}
+              </div>
+            </div>  
+          {% endblock %}
+        </div>  
+      </div>
+    </div>
+  </div>     
+</div>

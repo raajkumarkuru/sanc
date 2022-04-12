@@ -1,0 +1,120 @@
+{%
+  set classes = [
+    'node',
+    'node-detail',
+    'node--type-' ~ node.bundle|clean_class,
+    node.isPromoted() ? 'node--promoted',
+    node.isSticky() ? 'node--sticky',
+    not node.isPublished() ? 'node--unpublished',
+    'clearfix',
+  ]
+%}
+
+{% if view_mode == 'teaser' %} 
+  <div{{ attributes.addClass(classes) }}>
+    <div class="video-block">
+      <div class="post-thumbnail">
+        {% if gva_iframe|trim %}
+          {{ gva_iframe|raw }}
+        {% else %}
+          {{ content.field_image }}
+        {% endif %}  
+      </div>
+
+      <div class="post-content">
+        <div class="icon">
+          <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 100 100" enable-background="new 0 0 100 100" width="49" height="49">
+            <path class="svg-stroke-solid" fill="none" stroke="currentColor" d="M49.9,2.5C23.6,2.8,2.1,24.4,2.5,50.4C2.9,76.5,24.7,98,50.3,97.5c26.4-0.6,47.4-21.8,47.2-47.7
+              C97.3,23.7,75.7,2.3,49.9,2.5"></path>
+            <path class="svg-stroke-icon" fill="currentColor" d="M38,69c-1,0.5-1.8,0-1.8-1.1V32.1c0-1.1,0.8-1.6,1.8-1.1l34,18c1,0.5,1,1.4,0,1.9L38,69z"></path>
+          </svg>
+        </div>
+        <h3 class="title"><a href="{{ url }}" rel="bookmark">{{ label }}</a></h3>
+      </div>
+
+    </div>
+  </div>  
+
+{% elseif view_mode == 'slider_1' %}
+  
+  <div{{ attributes.addClass(classes).addClass('video-block-slider') }}>
+    <div class="post-inner">
+      <div class="post-thumbnail">
+        {{ content.field_image }}
+        <a class="icon" href="{{url}}">
+          <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 100 100" enable-background="new 0 0 100 100" width="49" height="49">
+            <path class="svg-stroke-solid" fill="none" stroke="currentColor" d="M49.9,2.5C23.6,2.8,2.1,24.4,2.5,50.4C2.9,76.5,24.7,98,50.3,97.5c26.4-0.6,47.4-21.8,47.2-47.7
+              C97.3,23.7,75.7,2.3,49.9,2.5"></path>
+            <path class="svg-stroke-icon" fill="currentColor" d="M38,69c-1,0.5-1.8,0-1.8-1.1V32.1c0-1.1,0.8-1.6,1.8-1.1l34,18c1,0.5,1,1.4,0,1.9L38,69z"></path>
+          </svg>
+        </a>  
+      </div>
+      <div class="post-meta-wrap">
+        <h3 class="post-title"><a href="{{url}}">{{ label }}</a></h3>
+      </div>
+    </div>
+  </div>
+
+{% elseif view_mode == 'teaser_1' or view_mode == 'teaser_2' %}
+  <div{{ attributes.addClass(classes) }}>
+    <div class="video-block">
+      <div class="post-thumbnail">{{ content.field_image }}</div>
+      <div class="post-content">
+        <div class="icon">
+          <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 100 100" enable-background="new 0 0 100 100" width="49" height="49">
+            <path class="svg-stroke-solid" fill="none" stroke="currentColor" d="M49.9,2.5C23.6,2.8,2.1,24.4,2.5,50.4C2.9,76.5,24.7,98,50.3,97.5c26.4-0.6,47.4-21.8,47.2-47.7
+              C97.3,23.7,75.7,2.3,49.9,2.5"></path>
+            <path class="svg-stroke-icon" fill="currentColor" d="M38,69c-1,0.5-1.8,0-1.8-1.1V32.1c0-1.1,0.8-1.6,1.8-1.1l34,18c1,0.5,1,1.4,0,1.9L38,69z"></path>
+          </svg>
+        </div>
+        <h3 class="title"><a href="{{ url }}" rel="bookmark">{{ label }}</a></h3>
+      </div>
+    </div>
+  </div>  
+
+{% else %}
+
+<article{{ attributes.addClass(classes) }}>
+  <div class="post-block">
+      
+    <div class="post-thumbnail">
+      {% if gva_iframe %}
+        {{ gva_iframe|raw }}
+      {% else %}
+        {{ content.field_image }}
+      {% endif %}  
+    </div>
+
+    <div class="post-content">
+      {{ title_prefix }}
+         <h1{{ title_attributes.addClass('post-title') }}>{{ label }}</h1>
+      {{ title_suffix }}         
+      <div class="post-meta hidden">
+        <span class="post-created"> {{date|raw }} </span> 
+      </div>
+      
+      {% if display_submitted %}
+        <div class="node__meta hidden">
+          {{ author_picture }}
+          <span{{ author_attributes }}>
+            {% trans %}Submitted by {{ author_name }} on {{ date|raw }}{% endtrans %}
+          </span>
+          {{ metadata }}
+        </div>
+      {% endif %}
+
+      <div{{ content_attributes.addClass('node__content', 'clearfix') }}>
+        {{ content|without('field_image', 'field_video_embed', 'comment') }}
+      </div>
+      <div id="node-single-comment">
+        {{ content.comment }}
+      </div>
+
+    </div>
+
+  </div>
+
+</article>
+
+<!-- End Display article for detail page -->
+{% endif %}

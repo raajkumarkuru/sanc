@@ -1,0 +1,27 @@
+{% if attributes -%}
+   <div{{ attributes }}>
+{% endif %}
+
+   {% for row in rows|batch(5) %}
+      {% set k = 0 %}
+      {% for column in row %} 
+         {% set k = k + 1 %}
+         {% if k == 1 %}
+            <div class="post-large post-item carousel-item">
+               <div class="item content">{{ column.content }}</div>
+            </div>
+         {% else %}
+            {% if k == 2 %} <div> {% endif %}
+               {% if k % 2 == 0 %}<div class="post-small carousel-item"> {% endif %}
+                  <div class="item content post-small-item">{{ column.content }}</div>
+               {% if k % 2 == 1 or k == row|length %}</div>{% endif %}
+            {% if k == 5 or k == row|length %}</div>{% endif %}
+         {% endif %}
+      {% endfor %}
+   {% endfor %}
+
+{% if attributes -%}
+    </div>
+{% endif %}
+
+
